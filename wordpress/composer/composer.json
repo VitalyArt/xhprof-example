@@ -1,0 +1,6 @@
+{
+    "name": "wordpress/composer",
+    "require": {
+        "perftools/php-profiler": "^1.1"
+    }
+}

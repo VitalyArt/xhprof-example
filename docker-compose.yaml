@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+  wordpress:
+    build:
+      dockerfile: wordpress/Dockerfile
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+      XHGUI_ENABLE: 1
+      XHGUI_URL: http://xhgui
+    volumes:
+      # From volume
+      - wordpress:/var/www/html
+      # From host
+      - ./wordpress/xhgui:/var/www/xhgui
+      - ./wordpress/composer:/var/www/composer
+      - ./wordpress/html/index.php:/var/www/html/index.php
+
+  xhgui:
+    image: xhgui/xhgui
+    ports:
+      - 8081:80
+    volumes:
+      - ./xhgui/nginx.conf:/etc/nginx/http.d/default.conf:ro
+      - ./xhgui/config.default.php:/var/www/xhgui/config/config.default.php
+    environment:
+      - XHGUI_MONGO_HOSTNAME=mongo
+      - XHGUI_MONGO_DATABASE=xhprof
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+  mongo:
+    image: percona/percona-server-mongodb:3.6
+    # (case sensitive) engine: mmapv1, rocksdb, wiredTiger, inMemory
+    command: --storageEngine=wiredTiger
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=xhprof
+
+volumes:
+  wordpress:
+  db:
