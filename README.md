@@ -1,7 +1,7 @@
 <!-- TOC -->
 * [Setup](#setup)
     * [Installing packages from composer:](#installing-packages-from-composer)
-    * [Running Wordpress and XHGui:](#running-wordpress-and-xhgui)
+    * [Running Opencart and XHGui:](#running-opencart-and-xhgui)
 * [Available URLs](#available-urls)
 <!-- TOC -->
 
@@ -9,17 +9,17 @@
 
 ### Installing packages from composer:
 ```shell
-docker compose run -w /var/www/composer wordpress sh -c "composer install"
+docker compose run -w /opt/bitnami/composer opencart sh -c "composer install"
 ```
 
-### Running Wordpress and XHGui:
+### Running Opencart and XHGui:
 ```shell
 docker compose up -d
 ```
 
 # Available URLs
 
-| URL                   | Name      |
-|-----------------------|-----------|
-| http://localhost:8080 | Wordpress |
-| http://localhost:8081 | XHGui     |
+| URL                   | Name     |
+|-----------------------|----------|
+| http://localhost:8080 | Opencart |
+| http://localhost:8081 | XHGui    |

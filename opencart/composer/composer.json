@@ -1,5 +1,5 @@
 {
-    "name": "wordpress/composer",
+    "name": "opencart/composer",
     "require": {
         "perftools/php-profiler": "^1.1"
     }

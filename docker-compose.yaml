@@ -1,27 +1,28 @@
 version: '3.1'
 
 services:
-  wordpress:
-    build:
-      dockerfile: wordpress/Dockerfile
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: exampleuser
-      WORDPRESS_DB_PASSWORD: examplepass
-      WORDPRESS_DB_NAME: exampledb
-      XHGUI_ENABLE: 1
-      XHGUI_URL: http://xhgui
-    volumes:
-      # From volume
-      - wordpress:/var/www/html
-      # From host
-      - ./wordpress/xhgui:/var/www/xhgui
-      - ./wordpress/composer:/var/www/composer
-      - ./wordpress/html/index.php:/var/www/html/index.php
-
+  opencart:
+      build:
+        dockerfile: opencart/Dockerfile
+      restart: always
+      ports:
+        - 8080:8080
+      environment:
+        ALLOW_EMPTY_PASSWORD: yes
+        OPENCART_DATABASE_HOST: db
+        OPENCART_DATABASE_USER: exampleuser
+        OPENCART_DATABASE_PASSWORD: examplepass
+        OPENCART_DATABASE_NAME: exampledb
+        OPENCART_HOST: localhost:8080
+        XHGUI_ENABLE: 1
+        XHGUI_URL: http://xhgui
+      volumes:
+        # From volume
+        - opencart:/bitnami/opencart
+        # From host
+        - ./opencart/xhgui:/opt/bitnami/xhgui
+        - ./opencart/composer:/opt/bitnami/composer
+        - ./opencart/source/index.php:/opt/bitnami/opencart/index.php
   xhgui:
     image: xhgui/xhgui
     ports:
@@ -53,5 +54,5 @@ services:
       - MONGO_INITDB_DATABASE=xhprof
 
 volumes:
-  wordpress:
+  opencart:
   db:
